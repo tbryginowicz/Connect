@@ -4,11 +4,10 @@ import com.aplikacja.ProjektTestowanie.Entities.Post;
 import com.aplikacja.ProjektTestowanie.Services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,13 +17,40 @@ public class PostController {
 
     @Autowired
     private final PostService postService;
-    @GetMapping
-    public List<Post> getPosts(){
-        return postService.getPosts();
+    @GetMapping()
+    public List<Post> getPosts(
+            @RequestParam(required = false, defaultValue = Integer.MAX_VALUE + "") int limit
+    ){
+        return postService.getPosts(limit);
     }
 
-    @GetMapping("/byChars/{min}/{max}")
-    public List<Post> getPostsByBodyLength(@PathVariable int min, @PathVariable int max){
-        return postService.getPostByCharLength(min, max);
+    @GetMapping("/byLength")
+    public List<Post> getPostsByBodyLength(
+            @RequestParam(required = false, defaultValue = "0") int minBodyLength,
+            @RequestParam(required = false, defaultValue = Integer.MAX_VALUE + "") int maxBodyLength,
+            @RequestParam(required = false, defaultValue = Integer.MAX_VALUE + "") int limit){
+        return postService.getPostByCharLength(minBodyLength, maxBodyLength, limit);
     }
+
+    @GetMapping("/byBodyLike")
+    public List<Post> getPostsByBodyLike(
+            @RequestParam(required = false, defaultValue = "") String key,
+            @RequestParam(required = false, defaultValue = Integer.MAX_VALUE + "") int limit){
+        return postService.getPostByBodyLike(key, limit);
+    }
+
+    @GetMapping("/byTitleLike")
+    public List<Post> getPostsByTitleLike(
+            @RequestParam(required = false, defaultValue = "") String key,
+            @RequestParam(required = false, defaultValue = Integer.MAX_VALUE + "") int limit){
+        return postService.getPostByTitleLike(key, limit);
+    }
+
+    @GetMapping("/byUserName")
+    public List<Post> getPostsByUserName(
+            @RequestParam(required = false, defaultValue = "") String username,
+            @RequestParam(required = false, defaultValue = Integer.MAX_VALUE + "") int limit){
+        return null;//postService.getPostByTitleLike(username, limit);
+    }
+
 }

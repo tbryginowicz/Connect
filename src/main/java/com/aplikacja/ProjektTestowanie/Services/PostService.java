@@ -21,7 +21,7 @@ public class PostService {
 
     private static final String JSON_PLACEHOLDER_URL = "https://jsonplaceholder.typicode.com/posts";
 
-    public List<Post> getPosts(){
+    public List<Post> getPosts(int limit){
         try {
             HttpResponse<JsonNode> jsonResponse = Unirest.get(JSON_PLACEHOLDER_URL)
                     .header("accept", "application/json")
@@ -34,13 +34,13 @@ public class PostService {
 
             ObjectMapper mapper = new ObjectMapper();
             Post[] posts = mapper.readValue(jsonResponse.getRawBody(),Post[].class);
-            return Arrays.asList(posts);
+            return Arrays.stream(posts).limit(limit).collect(Collectors.toList());
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    public List<Post> getPostByCharLength(int min, int max){
+    public List<Post> getPostByCharLength(int min, int max, int limit){
         try {
             HttpResponse<JsonNode> jsonResponse = Unirest.get(JSON_PLACEHOLDER_URL)
                     .header("accept", "application/json")
@@ -57,6 +57,57 @@ public class PostService {
             //filtering the posts
             return Arrays.stream(posts)
                     .filter(post -> post.getBody().length() >= min && post.getBody().length() <= max)
+                    .limit(limit)
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public List<Post> getPostByBodyLike(String key ,int limit){
+        try {
+            HttpResponse<JsonNode> jsonResponse = Unirest.get(JSON_PLACEHOLDER_URL)
+                    .header("accept", "application/json")
+                    .asJson();
+
+            //error handling
+            if(jsonResponse.getStatus() != 200){
+                throw new RuntimeException("Could not download posts from JsonPlaceholder, code-" + jsonResponse.getStatus());
+            }
+
+            ObjectMapper mapper = new ObjectMapper();
+            Post[] posts = mapper.readValue(jsonResponse.getRawBody(),Post[].class);
+
+            //filtering the posts
+            return Arrays.stream(posts)
+                    .filter(post -> post.getBody().contains(key))
+                    .limit(limit)
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public List<Post> getPostByTitleLike(String key ,int limit){
+        try {
+            HttpResponse<JsonNode> jsonResponse = Unirest.get(JSON_PLACEHOLDER_URL)
+                    .header("accept", "application/json")
+                    .asJson();
+
+            //error handling
+            if(jsonResponse.getStatus() != 200){
+                throw new RuntimeException("Could not download posts from JsonPlaceholder, code-" + jsonResponse.getStatus());
+            }
+
+            ObjectMapper mapper = new ObjectMapper();
+            Post[] posts = mapper.readValue(jsonResponse.getRawBody(),Post[].class);
+
+            //filtering the posts
+            return Arrays.stream(posts)
+                    .filter(post -> post.getTitle().contains(key))
+                    .limit(limit)
                     .collect(Collectors.toList());
 
         } catch (Exception e) {
