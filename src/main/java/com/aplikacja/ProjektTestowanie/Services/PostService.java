@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -33,6 +35,30 @@ public class PostService {
             ObjectMapper mapper = new ObjectMapper();
             Post[] posts = mapper.readValue(jsonResponse.getRawBody(),Post[].class);
             return Arrays.asList(posts);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public List<Post> getPostByCharLength(int min, int max){
+        try {
+            HttpResponse<JsonNode> jsonResponse = Unirest.get(JSON_PLACEHOLDER_URL)
+                    .header("accept", "application/json")
+                    .asJson();
+
+            //error handling
+            if(jsonResponse.getStatus() != 200){
+                throw new RuntimeException("Could not download posts from JsonPlaceholder, code-" + jsonResponse.getStatus());
+            }
+
+            ObjectMapper mapper = new ObjectMapper();
+            Post[] posts = mapper.readValue(jsonResponse.getRawBody(),Post[].class);
+
+            //filtering the posts
+            return Arrays.stream(posts)
+                    .filter(post -> post.getBody().length() >= min && post.getBody().length() <= max)
+                    .collect(Collectors.toList());
+
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
