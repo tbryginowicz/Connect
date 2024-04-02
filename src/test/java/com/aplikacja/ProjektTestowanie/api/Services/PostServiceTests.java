@@ -86,7 +86,10 @@ public class PostServiceTests {
         Assertions.assertThat(postArgumentCaptor.getValue().getUserId()).isEqualTo(1);
         Assertions.assertThat(postArgumentCaptor.getValue().getTitle()).isEqualTo("singlePost");
         Assertions.assertThat(postArgumentCaptor.getValue().getBody()).isEqualTo("TestPostBodySingle");
+        //change
     }
+
+
 
 
 }
