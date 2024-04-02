@@ -9,14 +9,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class User {
+public class Company {
 
-    int id;
     String name;
-    String username;
-    String email;
-    Adress address;
-    String phone;
-    String website;
-    Company company;
+    String catchPhrase;
+    String bs;
 }

@@ -4,6 +4,7 @@ import com.aplikacja.ProjektTestowanie.Entities.Post;
 import com.aplikacja.ProjektTestowanie.Services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
@@ -15,8 +16,8 @@ import java.util.List;
 @RequestMapping("/posts")
 public class PostController {
 
-    @Autowired
     private final PostService postService;
+
     @GetMapping()
     public List<Post> getPosts(
             @RequestParam(required = false, defaultValue = Integer.MAX_VALUE + "") int limit
@@ -51,6 +52,12 @@ public class PostController {
             @RequestParam(required = false, defaultValue = "") String username,
             @RequestParam(required = false, defaultValue = Integer.MAX_VALUE + "") int limit){
         return null;//postService.getPostByTitleLike(username, limit);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Post createPost(@RequestBody Post postRequest){
+        return postService.createPost(postRequest);
     }
 
 }
