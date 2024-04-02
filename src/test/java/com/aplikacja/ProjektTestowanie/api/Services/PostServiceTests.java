@@ -34,18 +34,18 @@ public class PostServiceTests {
     @BeforeAll
     public static void init(){
 
-        post = new Post(1, 10, "singlePost", "TestPostBodySingle");
-
         posts = new ArrayList<>();
         posts.add(new Post(1, 1, "testPost1", "TestPostBody1"));
         posts.add(new Post(1, 2, "testPost2", "TestPostBody2"));
         posts.add(new Post(1, 3, "testPost3", "TestPostBody3"));
         posts.add(new Post(2, 4, "testPost4", "TestPostBody4"));
         posts.add(new Post(3, 5, "testPost5", "Te"));
-        posts.add(new Post(4, 6, "testPost6", "TestPostBody1LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG"));
+        posts.add(new Post(4, 6, "singlePost", "TestPostBody1LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG"));
         posts.add(new Post(5, 7, "testowyInnyTytul", "testowyInnyBody"));
         posts.add(new Post(6, 8, "testPost7", "TestPostBody5"));
         posts.add(new Post(7, 9, "testPost8", "TestPostBody6"));
+
+        post = posts.get(5);
     }
 
     @Test
@@ -82,11 +82,44 @@ public class PostServiceTests {
         ArgumentCaptor<Post> postArgumentCaptor = ArgumentCaptor.forClass(Post.class);
         verify(jsonPlaceHolderService, times(1)).createPost(postArgumentCaptor.capture());
 
-        Assertions.assertThat(postArgumentCaptor.getValue().getId()).isEqualTo(10);
-        Assertions.assertThat(postArgumentCaptor.getValue().getUserId()).isEqualTo(1);
+        Assertions.assertThat(postArgumentCaptor.getValue().getId()).isEqualTo(6);
+        Assertions.assertThat(postArgumentCaptor.getValue().getUserId()).isEqualTo(4);
         Assertions.assertThat(postArgumentCaptor.getValue().getTitle()).isEqualTo("singlePost");
-        Assertions.assertThat(postArgumentCaptor.getValue().getBody()).isEqualTo("TestPostBodySingle");
-        //change
+        Assertions.assertThat(postArgumentCaptor.getValue().getBody()).isEqualTo("TestPostBody1LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG");
+    }
+
+    @Test
+    public void getPostsByCharLengthTest(){
+
+        when(jsonPlaceHolderService.getPosts()).thenReturn(posts);
+
+        List<Post> resultOne = postService.getPostByCharLength(2, 4, 10);
+        List<Post> resultTwo = postService.getPostByCharLength(30, 400, 10);
+
+        Assertions.assertThat(resultOne.get(0).getId()).isEqualTo(5);
+        Assertions.assertThat(resultTwo.get(0).getId()).isEqualTo(6);
+    }
+
+    @Test
+    public void getPostByBodyLikeTest(){
+
+        when(jsonPlaceHolderService.getPosts()).thenReturn(posts);
+
+        List<Post> result = postService.getPostByBodyLike("Inny", 10);
+
+        Assertions.assertThat(result.size()).isEqualTo(1);
+        Assertions.assertThat(result.get(0).getId()).isEqualTo(7);
+    }
+
+    @Test
+    public void getPostByTitleLikeTest(){
+
+        when(jsonPlaceHolderService.getPosts()).thenReturn(posts);
+
+        List<Post> result = postService.getPostByTitleLike("Inny", 10);
+
+        Assertions.assertThat(result.size()).isEqualTo(1);
+        Assertions.assertThat(result.get(0).getId()).isEqualTo(7);
     }
 
 
