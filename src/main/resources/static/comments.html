@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Comments</h1>
+    <center><button onclick="browsePosts()">Go Back</button></center>
+    <h2>Add Comment</h2>
+    <form id="addCommentForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="body">Body:</label><br>
+        <textarea id="body" name="body" rows="4" cols="50"></textarea><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email"><br><br>
+        <input type="submit" value="Add Comment">
+    </form>
+    <div id="commentsContainer"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            initializePage();
+        });
+
+        function initializePage() {
+            // Pobierz identyfikator postu z adresu URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('postId');
+
+            // Wywołaj funkcję pobierającą komentarze dla danego postu
+            if (postId) {
+                getCommentsForPost(postId);
+            } else {
+                console.error('Post ID not found in URL.');
+            }
+
+            // Dodaj nasłuchiwanie zdarzenia na formularz
+            document.getElementById('addCommentForm').addEventListener('submit', function (event) {
+                event.preventDefault(); // Zapobiegaj domyślnemu zachowaniu formularza (przeładowanie strony)
+
+                const formData = new FormData(this); // Pobierz dane z formularza
+                const commentData = Object.fromEntries(formData.entries()); // Konwertuj dane formularza do obiektu
+
+                // Dodaj nowy komentarz
+                addComment(commentData, postId);
+            });
+        }
+
+        async function getCommentsForPost(postId) {
+            try {
+                const response = await fetch(`/comments/byPostId?postId=${postId}`);
+                if (response.status === 200) {
+                    const comments = await response.json();
+                    displayComments(comments);
+                } else {
+                    throw new Error('Failed to fetch comments. Status code: ' + response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching comments:', error.message);
+            }
+        }
+
+        async function addComment(commentData, postId) {
+            try {
+                const response = await fetch('/comments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        postId: postId,
+                        ...commentData
+                    })
+                });
+
+                if (response.status === 201) {
+                    alert('Comment added successfully');
+                } else {
+                    throw new Error('Failed to add comment');
+                }
+            } catch (error) {
+                console.error('Error adding comment:', error.message);
+                alert('Failed to add comment. Please try again.');
+            }
+        }
+
+        // Funkcja do wyświetlania komentarzy na stronie
+        function displayComments(comments) {
+            const commentsContainer = document.getElementById('commentsContainer');
+            commentsContainer.innerHTML = ''; // Wyczyść kontener na komentarze
+
+            const table = document.createElement('table');
+            table.classList.add('comments-table');
+
+            // Dodaj nagłówki tabeli
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = `
+                <th>Name</th>
+                <th>Body</th>
+                <th>Email</th>
+            `;
+            table.appendChild(headerRow);
+
+            // Dodaj komentarze do tabeli
+            comments.forEach(comment => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${comment.name}</td>
+                    <td>${comment.body}</td>
+                    <td>${comment.email}</td>
+                `;
+                table.appendChild(row);
+            });
+
+            commentsContainer.appendChild(table);
+        }
+
+        function browsePosts() {
+            window.location.href = "posts.html";
+        }
+    </script>
+</body>
+</html>
