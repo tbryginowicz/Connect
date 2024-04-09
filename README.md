@@ -26,8 +26,8 @@
 </ul>
 <h1></h1>
 <p>
-  <b><Testy można znaleźć w/b> <br>
-  src/test/java/com/aplikacja/ProjektTestowanie/api
+  <b>Testy można znaleźć w</b> <br>
+  <li>src/test/java/com/aplikacja/ProjektTestowanie/api</li>
 </p>
 <p><b>Docker image można pobrać komendą:</b><br>
-docker pull koci455/connect</p>
+<li>docker pull koci455/connect</li></p>
