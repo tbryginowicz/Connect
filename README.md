@@ -1,5 +1,5 @@
 <h1>Connect</h1>
-<p>Connect to prosta aplikacja wenowa podobna w funkcjach do portali typu facebook.</p>
+<p>Connect to prosta aplikacja webowa imitująca portal społecznościowy z wykorzystaniem JSONPlaceholder</p>
 <h2>Technologie użyte do tworzenia aplikacji:</h2>
 <h3>Front-end:</h3>
 <ul>
@@ -12,4 +12,15 @@
   <li>Java 17</li>
   <li>Maven</li>
   <li>Spring-boot</li>
+</ul>
+<h3>Testy</h3>
+<ul>
+  <li>Junit</li>
+  <li>Mockito</li>
+</ul>
+<h3>Dev-ops</h3>
+<ul>
+  <li>Git</li>
+  <li>Github actions</li>
+  <li>CodeQL</li>
 </ul>
