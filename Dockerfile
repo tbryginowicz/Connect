@@ -1,5 +1,5 @@
 FROM openjdk:17-jdk-alpine
-LABEL authors="lukasz&tomek"
+LABEL authors="Lukasz&Tomek"
 
 WORKDIR /app
 
