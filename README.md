@@ -24,3 +24,8 @@
   <li>Github actions</li>
   <li>CodeQL</li>
 </ul>
+
+<p>
+  Testy można znaleźć w <br>
+  src/test/java/com/aplikacja/ProjektTestowanie/api
+</p>
