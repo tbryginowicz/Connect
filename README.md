@@ -29,3 +29,5 @@
   Testy można znaleźć w <br>
   src/test/java/com/aplikacja/ProjektTestowanie/api
 </p>
+<p>Docker image można pobrać komendą:<br>
+docker pull koci455/connect</p>
