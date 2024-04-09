@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSONPlaceholder Albums</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>JSONPlaceholder Albums</h1>
+    <h2>Albums</h2>
+    <button onclick="landingPage()">Go Back</button><br><br>
+    <button onclick="getAlbums()">Get Albums</button>
+    <select id="albumLimit">
+        <option value="">All</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+    </select>
+    <button onclick="searchByTitleLike()">Search by Title</button>
+    <input type="text" id="albumKeyword" placeholder="Keyword in title">
+    <button onclick="searchByAuthorId()">Search by Author ID</button>
+    <input type="number" id="authorId" placeholder="Author ID">
+    <div>
+        <h2>Add New Album</h2>
+        <label for="newAlbumUserId">User ID:</label>
+        <input type="number" id="newAlbumUserId" placeholder="User ID"><br><br>
+        <label for="newAlbumTitle">Title:</label>
+        <input type="text" id="newAlbumTitle" placeholder="Album Title"><br><br>
+        <button onclick="createAlbum()">Add Album</button>
+    </div>
+    
+    <table id="albumTable">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>ID</th>
+                <th>Title</th>
+                <th>View Photos</th>
+            </tr>
+        </thead>
+        <tbody id="albumBody">
+        </tbody>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+</html>

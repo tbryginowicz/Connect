@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album Photos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Album Photos</h1>
+    <center>
+    <button onclick="browseAlbums()">Go Back</button>
+    </center>
+    <h1>Add Photo</h1>
+    <form id="addPhotoForm">
+        <label for="albumId">Album ID:</label>
+        <input type="text" id="albumId" name="albumId"><br><br>
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title"><br><br>
+        <label for="url">URL:</label>
+        <input type="text" id="url" name="url"><br><br>
+        <label for="thumbnailUrl">Thumbnail URL:</label>
+        <input type="text" id="thumbnailUrl" name="thumbnailUrl"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <table id="albumTable">
+        <thead>
+            <tr>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody id="albumBody">
+        </tbody>
+    </table>
+    <div id="photoList"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const albumId = urlParams.get('albumId');
+            if (albumId) {
+                getPhotos(albumId);
+            }
+        });
+
+        async function getPhotos(albumId) {
+            const response = await fetch(`http://localhost:8080/photos/byAlbumId?albumId=${albumId}`);
+            const photos = await response.json();
+            const photoList = document.getElementById("photoList");
+            photoList.innerHTML = "";
+            photos.forEach(photo => {
+                const img = `<img src="${photo.thumbnailUrl}" alt="${photo.title}">`;
+                photoList.innerHTML += img;
+            });
+        }
+        function browseAlbums() {
+            window.location.href = "albums.html";
+        }
+        document.getElementById("addPhotoForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const albumId = document.getElementById("albumId").value;
+            const title = document.getElementById("title").value;
+            const url = document.getElementById("url").value;
+            const thumbnailUrl = document.getElementById("thumbnailUrl").value;
+
+            const photoData = {
+                albumId: albumId,
+                title: title,
+                url: url,
+                thumbnailUrl: thumbnailUrl
+            };
+
+            fetch('http://localhost:8080/photos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(photoData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add photo');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Photo added successfully');
+                // Clear form fields after successful submission
+                document.getElementById("addPhotoForm").reset();
+            })
+            .catch(error => {
+                console.error('Error adding photo:', error);
+                alert('Failed to add photo. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>

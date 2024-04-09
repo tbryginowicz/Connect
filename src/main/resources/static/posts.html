@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Connect</h1>
+    <h2>Posts</h2>
+        <button onclick="landingPage()">Go Back</button><br><br>
+        <button onclick="getPosts()">Get Posts</button>
+        <select id="postLimit">
+            <option value="">All</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+        </select>
+        <input type="number" id="minChars" placeholder="Min. characters">
+        <input type="number" id="maxChars" placeholder="Max. characters">
+        <button onclick="searchByLength()">Search By Length</button>
+        <input type="text" id="keyword" placeholder="Keyword in title">
+        <button onclick="searchByTitleLikePost()">Search By Title</button>
+        <input type="text" id="keywordBody" placeholder="Keyword in title">
+        <button onclick="searchByBodyLikePost()">Search By Body</button>
+        <br><br>
+        <h2>Create New Post</h2>
+        <input type="number" id="newPostUserId" placeholder="User ID">
+        <input type="text" id="newPostTitle" placeholder="Post Title">
+        <input type="text" id="newPostBody" placeholder="Post Body">
+        <button onclick="createPost()">Create Post</button>
+
+
+    <h2>Search Results</h2>
+    <ul id="searchResults"></ul>
+
+    <table id="postTable">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Body</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody id="postBody">
+        </tbody>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+</html>

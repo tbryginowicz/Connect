@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New User</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Create New User</h1>
+    <button onclick="landingPage()">Go Back</button><br><br>
+    <form id="userForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required><br>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required><br>
+
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" required><br>
+
+        <label for="website">Website:</label>
+        <input type="text" id="website" required><br>
+
+        <h2>Address</h2>
+        <label for="street">Street:</label>
+        <input type="text" id="street" required><br>
+
+        <label for="city">City:</label>
+        <input type="text" id="city" required><br>
+
+        <label for="zipcode">Zipcode:</label>
+        <input type="text" id="zipcode" required><br>
+
+        <h2>Company</h2>
+        <label for="companyName">Name:</label>
+        <input type="text" id="companyName" required><br>
+
+        <label for="catchPhrase">Catch Phrase:</label>
+        <input type="text" id="catchPhrase" required><br>
+
+        <label for="bs">BS:</label>
+        <input type="text" id="bs" required><br>
+
+        <button type="button" onclick="createAccount()">Create Account</button>
+    </form>
+
+    <script src="script.js"></script>
+</body>
+</html>
