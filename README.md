@@ -27,7 +27,10 @@
 <h1></h1>
 <p>
   <b>Testy można znaleźć w</b> <br>
-  <li>src/test/java/com/aplikacja/ProjektTestowanie/api</li>
+  <li>src/test/java/com/aplikacja/ProjektTestowanie/api</li><br>
+
+  <b>Testy Kontraktowe można znaleźć w</b>
+  <li>src/test/java/com/aplikacja/ProjektTestowanie/api/controllers</li><br>
 </p>
 <p><b>Docker image można pobrać komendą:</b><br>
 <li>docker pull koci455/connect</li></p>
