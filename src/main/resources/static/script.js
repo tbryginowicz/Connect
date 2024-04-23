@@ -84,8 +84,6 @@ async function createPost() {
         if (response.status === 201) {
             const newPost = await response.json();
             alert('New post created with ID: ' + newPost.id);
-            // Opcjonalnie: odśwież listę postów
-            getPosts();
         } else {
             throw new Error('Failed to create post. Status code: ' + response.status);
         }
@@ -301,8 +299,7 @@ async function createAlbum() {
         if (response.status === 201) {
             const newAlbum = await response.json();
             alert('New album created with ID: ' + newAlbum.id);
-            // Opcjonalnie: odśwież listę albumów
-            getAlbums();
+
         } else {
             throw new Error('Failed to create album. Status code: ' + response.status);
         }
