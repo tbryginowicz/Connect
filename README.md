@@ -30,7 +30,7 @@
   <li>src/test/java/com/aplikacja/ProjektTestowanie/api</li><br>
 
   <b>Testy Kontraktowe można znaleźć w</b>
-  <li>src/test/java/com/aplikacja/ProjektTestowanie/api/controllers</li><br>
+  <li>src/test/java/com/aplikacja/ProjektTestowanie/api/services</li><br>
 </p>
 <p><b>Docker image można pobrać komendą:</b><br>
 <li>docker pull koci455/connect</li></p>
